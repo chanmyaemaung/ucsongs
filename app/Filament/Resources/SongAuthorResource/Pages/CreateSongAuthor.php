@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\SongAuthorResource\Pages;
 
 use App\Filament\Resources\SongAuthorResource;
-use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateSongAuthor extends CreateRecord
@@ -15,10 +14,8 @@ class CreateSongAuthor extends CreateRecord
         return $this->previousUrl ?? $this->getResource()::getUrl('index');
     }
 
-    protected function getCreatedNotification(): ?Notification
+    protected function getCreatedNotificationTitle(): ?string
     {
-        return Notification::make()
-            ->title('Author created')
-            ->success();
+        return "Author '{$this->record->name}' was created successfully";
     }
 }

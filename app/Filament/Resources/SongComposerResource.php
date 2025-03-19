@@ -14,13 +14,20 @@ class SongComposerResource extends Resource
 {
     protected static ?string $model = SongComposer::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-microphone';
-
+    /**
+     * Navigation Configuration
+     * ----------------------
+     * This is a child menu item under the Songs parent menu
+     */
     protected static ?string $navigationGroup = 'Song Books';
-
     protected static ?string $navigationLabel = 'Composers';
 
-    protected static ?int $navigationSort = 3;
+    /**
+     * Parent Menu Configuration
+     * ------------------------
+     * These settings define how this resource appears under the Songs parent menu
+     */
+    protected static ?string $navigationParentItem = 'Songs';
 
     public static function form(Form $form): Form
     {
@@ -98,5 +105,15 @@ class SongComposerResource extends Resource
             'create' => Pages\CreateSongComposer::route('/create'),
             'edit' => Pages\EditSongComposer::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return static::getModel()::count() > 10 ? 'warning' : 'primary';
     }
 }

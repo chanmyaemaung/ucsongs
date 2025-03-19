@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\SongResource\Pages;
 
 use App\Filament\Resources\SongResource;
-use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateSong extends CreateRecord
@@ -15,11 +14,8 @@ class CreateSong extends CreateRecord
         return $this->previousUrl ?? $this->getResource()::getUrl('index');
     }
 
-    protected function getCreatedNotification(): ?Notification
+    protected function getCreatedNotificationTitle(): ?string
     {
-        return Notification::make()
-            ->title('Song created')
-            ->body('Song has been created successfully')
-            ->success();
+        return "Song '{$this->record->title}' was created successfully";
     }
 }

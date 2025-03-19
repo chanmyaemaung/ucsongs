@@ -4,7 +4,6 @@ namespace App\Filament\Resources\SongYearResource\Pages;
 
 use App\Filament\Resources\SongYearResource;
 use Filament\Actions;
-use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 
 class EditSongYear extends EditRecord
@@ -24,10 +23,8 @@ class EditSongYear extends EditRecord
         return $this->previousUrl ?? $this->getResource()::getUrl('index');
     }
 
-    protected function getSavedNotification(): ?Notification
+    protected function getUpdatedNotificationTitle(): ?string
     {
-        return Notification::make()
-            ->title('Year updated')
-            ->success();
+        return "Year '{$this->record->year}' was updated successfully";
     }
 }

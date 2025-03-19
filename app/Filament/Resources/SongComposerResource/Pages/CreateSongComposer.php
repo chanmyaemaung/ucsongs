@@ -15,10 +15,8 @@ class CreateSongComposer extends CreateRecord
         return $this->previousUrl ?? $this->getResource()::getUrl('index');
     }
 
-    protected function getCreatedNotification(): ?Notification
+    protected function getCreatedNotificationTitle(): ?string
     {
-        return Notification::make()
-            ->title('Composer created')
-            ->success();
+        return "Composer '{$this->record->name}' was created successfully";
     }
 }

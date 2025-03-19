@@ -14,13 +14,20 @@ class SongYearResource extends Resource
 {
     protected static ?string $model = SongYear::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-calendar';
-
+    /**
+     * Navigation Configuration
+     * ----------------------
+     * This is a child menu item under the Songs parent menu
+     */
     protected static ?string $navigationGroup = 'Song Books';
-
     protected static ?string $navigationLabel = 'Years';
 
-    protected static ?int $navigationSort = 4;
+    /**
+     * Parent Menu Configuration
+     * ------------------------
+     * These settings define how this resource appears under the Songs parent menu
+     */
+    protected static ?string $navigationParentItem = 'Songs';
 
     public static function form(Form $form): Form
     {
@@ -100,5 +107,15 @@ class SongYearResource extends Resource
             'create' => Pages\CreateSongYear::route('/create'),
             'edit' => Pages\EditSongYear::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return static::getModel()::count() > 10 ? 'warning' : 'primary';
     }
 }

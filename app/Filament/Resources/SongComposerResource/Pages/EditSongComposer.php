@@ -23,11 +23,4 @@ class EditSongComposer extends EditRecord
     {
         return $this->previousUrl ?? $this->getResource()::getUrl('index');
     }
-
-    protected function getSavedNotification(): ?Notification
-    {
-        return Notification::make()
-            ->title('Composer updated')
-            ->success();
-    }
 }

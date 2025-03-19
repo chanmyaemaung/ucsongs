@@ -14,13 +14,14 @@ class SongResource extends Resource
 {
     protected static ?string $model = Song::class;
 
+    /**
+     * Navigation Configuration
+     * ----------------------
+     * This is the parent menu item for all song-related resources
+     */
     protected static ?string $navigationIcon = 'heroicon-o-musical-note';
-
     protected static ?string $navigationGroup = 'Song Books';
-
     protected static ?string $navigationLabel = 'Songs';
-
-    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -127,8 +128,8 @@ class SongResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\DeleteAction::make(),
                 ]),
@@ -158,5 +159,15 @@ class SongResource extends Resource
             'view' => Pages\ViewSong::route('/{record}'),
             'edit' => Pages\EditSong::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return static::getModel()::count() > 10 ? 'warning' : 'primary';
     }
 }

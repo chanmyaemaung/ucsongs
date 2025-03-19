@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class SongAuthorResource extends Resource
 {
@@ -115,5 +116,26 @@ class SongAuthorResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return static::getModel()::count() > 10 ? 'warning' : 'primary';
+    }
+
+    /**
+     * Global search configuration
+     * Enables searching authors by name
+     */
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->name;
+    }
+
+    /**
+     * Defines which attributes can be searched globally
+     * We include 'name' to allow users to search authors by their names
+     * This makes it easier to find specific authors without navigating to the authors page
+     *
+     * @return array<string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['name'];
     }
 }

@@ -7,6 +7,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -51,6 +52,31 @@ class User extends Authenticatable implements FilamentUser
      */
     public function canAccessPanel(\Filament\Panel $panel): bool
     {
-        return str_ends_with($this->email, env('ADMIN_EMAIL')) && $this->hasVerifiedEmail();
+        // Check if user has either Admin or Editor role
+        foreach ($this->roles as $role) {
+            if ($role->name === 'Admin' || $role->name === 'Editor') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function hasPermission($permission): bool
+    {
+        $permission_array = [];
+
+        foreach ($this->roles as $role) {
+            foreach ($role->permissions as $single_permission) {
+                $permission_array[] = $single_permission->name;
+            }
+        }
+
+        return collect($permission_array)->unique()->contains($permission);
     }
 }

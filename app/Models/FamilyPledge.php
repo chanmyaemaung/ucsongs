@@ -45,6 +45,16 @@ class FamilyPledge extends Model
      */
     public function getPledgeItemsAttribute($value)
     {
-        return json_decode($value, true) ?? [];
+        if (is_array($value)) {
+            return $value;
+        }
+
+        $decoded = json_decode($value, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($decoded)) {
+            return [];
+        }
+
+        return $decoded;
     }
-} 
+}

@@ -308,22 +308,24 @@ class FamilyPledgeResource extends Resource
 
     /**
      * Global search configuration
-     * Enables searching pledges by title, language, and content
+     * Enables searching pledges by title
      */
     public static function getGlobalSearchResultTitle(Model $record): string
     {
         return $record->title;
     }
 
-    public static function getGlobalSearchEloquentQuery(): Builder
-    {
-        // Eager load pledge items to improve performance
-        return parent::getGlobalSearchEloquentQuery()->with(['pledge_items']);
-    }
-
     public static function getGloballySearchableAttributes(): array
     {
-        // Define which fields can be searched globally
-        return ['title', 'language_name', 'language_code', 'content'];
+        return ['title'];
+    }
+
+    /**
+     * Customizes where users are directed after clicking a search result
+     * Redirects to the view page instead of edit page for better user experience
+     */
+    public static function getGlobalSearchResultUrl(Model $record): string
+    {
+        return static::getUrl('view', ['record' => $record]);
     }
 }

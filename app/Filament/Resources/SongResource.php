@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class SongResource extends Resource
 {
@@ -169,5 +170,35 @@ class SongResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return static::getModel()::count() > 10 ? 'warning' : 'primary';
+    }
+
+    /**
+     * Global search configuration
+     * Enables searching songs by title
+     */
+    public static function getGlobalSearchResultTitle(Model $record): string
+    {
+        return $record->title;
+    }
+
+    /**
+     * Defines which attributes can be searched globally
+     * We include 'title' to allow users to search songs by their names
+     * This makes it easier to find specific songs without navigating to the songs page
+     *
+     * @return array<string>
+     */
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title'];
+    }
+
+    /**
+     * Customizes where users are directed after clicking a search result
+     * Redirects to the view page instead of edit page for better user experience
+     */
+    public static function getGlobalSearchResultUrl(Model $record): string
+    {
+        return static::getUrl('view', ['record' => $record]);
     }
 }

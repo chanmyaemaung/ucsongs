@@ -108,13 +108,13 @@ class SongResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('author.name')
-                    ->label(__('Author/Source'))
+                    ->label(__('Author'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('composer.name')
-                    ->label(__('Music Composer'))
+                    ->label(__('Composer'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('year.year')
-                    ->label(__('Category Year'))
+                    ->label(__('Year'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

@@ -10,6 +10,8 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -33,8 +35,10 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->profile()
             ->colors([
-                'primary' => Color::Purple,
+                'primary' => Color::Indigo,
+                'gray' => Color::Slate,
             ])
+            ->brandName(__('UC Holy Songs'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -46,6 +50,17 @@ class AdminPanelProvider extends PanelProvider
                 ResourceChartWidget::class,
                 EbookTypeChartWidget::class,
                 FamilyPledgeTableWidget::class,
+            ])
+            ->navigationGroups([
+                'Song Books',
+                'Content Management',
+                'Settings',
+            ])
+            ->sidebarCollapsibleOnDesktop()
+            ->userMenuItems([
+                'logout' => MenuItem::make()
+                    ->label('Log Out')
+                    ->icon('heroicon-o-arrow-right-on-rectangle'),
             ])
             ->middleware([
                 EncryptCookies::class,

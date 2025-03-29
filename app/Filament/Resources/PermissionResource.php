@@ -16,10 +16,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class PermissionResource extends Resource
 {
     protected static ?string $model = Permission::class;
-    protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
+
     protected static ?string $navigationLabel = 'Permissions';
-    protected static ?string $navigationGroup = 'Admin Management';
-    protected static ?int $navigationSort = 90;
+    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationParentItem = 'Users Management';
 
     public static function form(Form $form): Form
     {
@@ -29,7 +29,8 @@ class PermissionResource extends Resource
                     ->autofocus()
                     ->label(__('Name'))
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -46,6 +47,7 @@ class PermissionResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
+                    ->slideOver()
                     ->color('warning'),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -68,7 +70,7 @@ class PermissionResource extends Resource
         return [
             'index' => Pages\ListPermissions::route('/'),
             'create' => Pages\CreatePermission::route('/create'),
-            'edit' => Pages\EditPermission::route('/{record}/edit'),
+            // 'edit' => Pages\EditPermission::route('/{record}/edit'),
         ];
     }
 }

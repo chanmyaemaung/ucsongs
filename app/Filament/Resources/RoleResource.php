@@ -17,11 +17,10 @@ use App\Filament\Resources\RoleResource\RelationManagers\PermissionsRelationMana
 class RoleResource extends Resource
 {
     protected static ?string $model = Role::class;
-    protected static ?string $navigationIcon = 'heroicon-o-key';
-    protected static ?string $navigationLabel = 'Roles';
-    protected static ?string $navigationGroup = 'Admin Management';
-    protected static ?int $navigationSort = 91;
 
+    protected static ?string $navigationLabel = 'Roles';
+    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationParentItem = 'Users Management';
 
 
     public static function form(Form $form): Form
@@ -32,7 +31,8 @@ class RoleResource extends Resource
                     ->autofocus()
                     ->label(__('Name'))
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -48,7 +48,8 @@ class RoleResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->slideOver(),
                 Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
@@ -70,7 +71,7 @@ class RoleResource extends Resource
         return [
             'index' => Pages\ListRoles::route('/'),
             'create' => Pages\CreateRole::route('/create'),
-            'edit' => Pages\EditRole::route('/{record}/edit'),
+            // 'edit' => Pages\EditRole::route('/{record}/edit'),
         ];
     }
 }
